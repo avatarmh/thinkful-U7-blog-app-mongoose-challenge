@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
     "test": "mocha --exit"
   },
   "repository": {
@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/avatarmh/thinkful-U7-blog-app-mongoose-challenge/issues"
   },
-  "homepage": "https://github.com/avatarmh/thinkful-U7-blog-app-mongoose-challenge#readme"
+  "homepage": "https://github.com/avatarmh/thinkful-U7-blog-app-mongoose-challenge#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongoose": "^5.1.6",
+    "morgan": "^1.9.0"
+  }
 }
