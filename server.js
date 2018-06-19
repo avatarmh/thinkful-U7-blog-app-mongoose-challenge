@@ -12,7 +12,10 @@ mongoose.Promise = global.Promise;
 const { PORT, DATABASE_URL } = require('./config');
 const postsRouter = require('./postsRouter');
 
+// creates instance of this express application
 const app = express();
+
+// any data passed should be converted to javascript objects (i.e., into JSON)
 app.use(express.json());
 
 app.use('/posts', postsRouter);

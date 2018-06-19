@@ -28,7 +28,7 @@ blogPostSchema.methods.serialize = function () {
 
   return {
     id: this._id,
-    author: this.authorName,
+    author: this.authorFullName,
     created: this.created,
     title: this.title,
     content: this.content

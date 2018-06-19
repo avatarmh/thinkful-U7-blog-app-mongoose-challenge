@@ -7,20 +7,20 @@ const jsonParser = bodyParser.json();
 
 const { BlogPost } = require('./models');
 
-// GET requests to /restaurants => return 10 restaurants
+// GET requests to /posts => return 10 blogposts
 router.get('/', (req, res) => {
   BlogPost
     .find()
-    // we're limiting because restaurants db has > 25,000
-    // documents, and that's too much to process/return
+    // we're limiting because blogPosts db just in case 
+    // it grows to many documents
     .limit(10)
-    // success callback: for each restaurant we got back, we'll
+    // success callback: for each blogPost we got back, we'll
     // call the `.serialize` instance method we've created in
     // models.js in order to only expose the data we want the API return.
     .then(blogposts => {
       res.json({
-        restaurants: restaurants.map(
-          (restaurant) => restaurant.serialize())
+        blogposts: blogposts.map(
+          (blogposts) => blogposts.serialize())
       });
     })
     .catch(err => {
@@ -31,11 +31,11 @@ router.get('/', (req, res) => {
 
 // can also request by ID
 router.get('/:id', (req, res) => {
-  Restaurant
+  BlogPost
     // this is a convenience method Mongoose provides for searching
     // by the object _id property
     .findById(req.params.id)
-    .then(restaurant => res.json(restaurant.serialize()))
+    .then(blogpost => res.json(blogpost.serialize()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ message: 'Internal server error' });
@@ -45,7 +45,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
 
-  const requiredFields = ['name', 'borough', 'cuisine'];
+  const requiredFields = ['title', 'content', 'author'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -55,15 +55,13 @@ router.post('/', (req, res) => {
     }
   }
 
-  Restaurant
+  BlogPost
     .create({
-      name: req.body.name,
-      borough: req.body.borough,
-      cuisine: req.body.cuisine,
-      grades: req.body.grades,
-      address: req.body.address
+      title: req.body.title,
+      author: req.body.author,
+      content: req.body.content
     })
-    .then(restaurant => res.status(201).json(restaurant.serialize()))
+    .then(blogpost => res.status(201).json(blogpost.serialize()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ message: 'Internal server error' });
@@ -85,7 +83,7 @@ router.put('/:id', (req, res) => {
   // if the user sent over any of the updatableFields, we udpate those values
   // in document
   const toUpdate = {};
-  const updateableFields = ['name', 'borough', 'cuisine', 'address'];
+  const updateableFields = ['title', 'author', 'content', 'created'];
 
   updateableFields.forEach(field => {
     if (field in req.body) {
@@ -93,17 +91,17 @@ router.put('/:id', (req, res) => {
     }
   });
 
-  Restaurant
+  BlogPost
     // all key/value pairs in toUpdate will be updated -- that's what `$set` does
     .findByIdAndUpdate(req.params.id, { $set: toUpdate })
-    .then(restaurant => res.status(204).end())
+    .then(blogpost => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
 
 router.delete('/:id', (req, res) => {
-  Restaurant
+  BlogPost
     .findByIdAndRemove(req.params.id)
-    .then(restaurant => res.status(204).end())
+    .then(blogpost => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
 
