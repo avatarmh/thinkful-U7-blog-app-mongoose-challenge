@@ -1,4 +1,6 @@
 'use strict';
-exports.DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/blogPost-app';
-exports.TEST_DATABASE_URL = process.env.TEST_DATABASE_URL || 'mongodb://localhost/test-blogPost-app';
+exports.DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/blogpost-app';
+exports.TEST_DATABASE_URL = process.env.TEST_DATABASE_URL || 'mongodb://localhost/test-blogpost-app';
 exports.PORT = process.env.PORT || 8080;
+
+// seed with mongoimport --db blogposts-app --collection blogposts --drop --file ./seed-data.json
